@@ -22,3 +22,11 @@ dist/
 
 # OS files
 .DS_Store
+
+# Next.js build output
+.next/
+apps/dashboard/.next/
+
+# Local SQLite DB
+dev.db
+db/dev.db
