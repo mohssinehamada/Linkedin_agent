@@ -1,0 +1,28 @@
+{
+  "name": "@jobagent/cli",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "bin": {
+    "jobagent": "dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "dev": "tsx watch src/index.ts"
+  },
+  "dependencies": {
+    "commander": "^12.1.0",
+    "dotenv": "^16.4.5",
+    "yaml": "^2.5.1",
+    "@jobagent/observability": "file:../../observability",
+    "@jobagent/automation": "file:../../automation",
+    "@jobagent/db": "file:../../db",
+    "better-sqlite3": "^11.8.1"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.2",
+    "typescript": "^5.6.2"
+  }
+}
+
+

@@ -1,0 +1,81 @@
+// datasource and generator
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model CandidateProfile {
+  id            String   @id @default(cuid())
+  firstName     String
+  lastName      String
+  email         String
+  phone         String?
+  location      String?
+  linkedinUrl   String?
+  portfolioUrl  String?
+  resumeBytes   Bytes?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  applications  Application[]
+}
+
+model JobPost {
+  id           String   @id @default(cuid())
+  source       String
+  url          String   @unique
+  title        String
+  company      String
+  location     String?
+  remote       Boolean?
+  description  String
+  requirements String?
+  seniority    String?
+  tags         Json
+  salary       String?
+  raw          Json
+  discoveredAt DateTime @default(now())
+  status       String
+  applications Application[]
+}
+
+model Application {
+  id               String   @id @default(cuid())
+  jobPostId        String
+  candidateId      String
+  status           String
+  resumeUsedPath   String
+  coverLetterPath  String?
+  screenerAnswers  Json?
+  submittedAt      DateTime?
+  confirmationId   String?
+  artifacts        Artifact[]
+  runs             Run[]
+  JobPost          JobPost          @relation(fields: [jobPostId], references: [id])
+  Candidate        CandidateProfile @relation(fields: [candidateId], references: [id])
+}
+
+model Run {
+  id            String   @id @default(cuid())
+  applicationId String
+  stage         String
+  success       Boolean
+  startedAt     DateTime @default(now())
+  endedAt       DateTime?
+  logs          Json?
+  Application   Application @relation(fields: [applicationId], references: [id])
+}
+
+model Artifact {
+  id            String   @id @default(cuid())
+  applicationId String
+  type          String
+  path          String
+  createdAt     DateTime @default(now())
+  Application   Application @relation(fields: [applicationId], references: [id])
+}
+
+

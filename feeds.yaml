@@ -1,0 +1,7 @@
+feeds:
+  - type: greenhouse
+    url: https://boards.greenhouse.io/example
+  - type: lever
+    url: https://jobs.lever.co/example
+
+
