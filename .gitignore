@@ -1,0 +1,24 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*.class
+
+# Virtual environments
+.venv/
+
+# Logs and artifacts
+artifacts/
+trace.zip
+screen_open.png
+steps.log.ndjson
+
+# Node
+node_modules/
+dist/
+*.tsbuildinfo
+
+# Environment
+.env
+
+# OS files
+.DS_Store
