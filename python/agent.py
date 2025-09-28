@@ -66,6 +66,20 @@ def load_candidate() -> dict | None:
         "resumePath": resume_path,
     }
 
+    # when you reach the linkedin feed page look for the  jobs button on the top press that 
+    # then in fille in the title and location boxes that are located next to each other they are next to the linking loggo 
+    # fille them with the information provided by the user  
+    # after you did that you will find your self in the job postiong page look for an easy apply button and then select it its locatied on the top part of the page 
+    # then start selection jobs 
+    # if a job dose not have easy apply or apply go to the next job 
+    # when pressing the easy apply button you will find your self in the application form page look for the required fields and fill them with the information provided by the user 
+    # then press the submit button and you will find your self in the confirmation page look for the confirmation id and save it to the database 
+    # then go to the next job 
+    # if a job dose not have easy apply or apply go to the next job 
+    # when pressing the easy apply button you will find your self in the application form page look for the required fields and fill them with the information provided by the user 
+    # then press the submit button and you will find your self in the confirmation page look for the confirmation id and save it to the database 
+    # then go to the next job 
+
 
 async def run_apply(job_url: str | None = None):
     # Phase 1: open and wait for login
@@ -154,19 +168,24 @@ Stay on the current job posting page you opened earlier: {job_url}
             "Prefer 'Easy Apply', but you may proceed with external if allowed."
         )
         search_or_open_instructions = f"""
-Go to https://www.linkedin.com/jobs/ and wait until the jobs search box is visible.
-Clear existing text, then in the left search input (job title) type '{role}'.
-In the right search input (location) type '{location}'. If a dropdown appears, press Enter to select the FIRST suggestion.
-Press Enter to run the search and wait for results (e.g., a list like '#jobs-search-results-list').
+Go to https://www.linkedin.com/ and ensure you are logged in.
+- If a cookie banner appears, click a button labeled 'Accept', 'Accept all', 'Agree', or similar.
+- If you are not already on Jobs, click the top navigation item 'Jobs' near the LinkedIn logo to open the jobs experience (https://www.linkedin.com/jobs/).
+
+In the jobs header (the two inputs next to the LinkedIn logo):
+- In the left input (job title), clear any text and type '{role}'.
+- In the right input (location), clear any text and type '{location}'. If a dropdown appears, press Enter to select the FIRST suggestion.
+- Press Enter to run the search and wait for results (e.g., a list like '#jobs-search-results-list').
 
 Apply filters to increase success rate:
-- Click the 'Easy Apply' filter if available.
+- Click the 'Easy Apply' filter if available (top of the page).
 - Sort by 'Most recent' if a sort control exists.
 
 From the results list, iterate postings top-down deterministically:
-- Open a job card in the same tab or right-hand panel (prefer same tab).
+- Open a job card in the same tab or in the right-hand panel (prefer same tab).
 - {easy_apply_policy}
 - {external_policy}
+- If neither an 'Easy Apply' nor an 'Apply' button is visible on a posting, SKIP it and move to the next posting.
 Maintain a set of visited postings by title/company (or job id in the URL) and SKIP any posting you've already visited in this run.
 After submit or skip, return to the results list (prefer closing modals or using the list panel rather than browser back) and continue with the next card. Avoid reopening postings you've already visited.
 Stop when you have attempted {apply_count} postings or when total run time reaches {max_run_minutes} minutes.
@@ -193,6 +212,7 @@ When inside an application form:
 - If you spend more than {max_per_posting_minutes} minutes on any single posting without clear progress, back out and move to the next posting.
 - {approval_external}
 - Skip optional actions like 'Follow company', newsletter sign-ups, or calendar scheduling unless explicitly approved.
+- After clicking the final submit, on the confirmation or review screen, look for any confirmation ID/reference number and include it in your final result text.
 - {approval_final} Capture a screenshot and stop on the confirmation/review screen.
     """
     agent2 = Agent(
