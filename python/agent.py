@@ -96,9 +96,10 @@ async def run_apply(job_url: str | None = None):
             f"Keep the browser open and periodically check for logged-in signals (feed, jobs tab). "
             f"Do NOT close the browser. Allow up to {wait_minutes} minutes for login."
         )
+    agent_model = os.getenv("BROWSER_AGENT_MODEL", "gemini-1.5-flash-latest")
     agent1 = Agent(
         task=task1,
-        llm=ChatGoogle(model="gemini-1.5-flash"),
+        llm=ChatGoogle(model=agent_model),
     )
     await agent1.run()
 
@@ -217,7 +218,7 @@ When inside an application form:
     """
     agent2 = Agent(
         task=task2,
-        llm=ChatGoogle(model="gemini-1.5-flash"),
+        llm=ChatGoogle(model=agent_model),
     )
     await agent2.run()
     if job_url:
